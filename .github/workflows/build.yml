@@ -460,11 +460,9 @@ jobs:
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: liwei2633
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login To Alibaba Cloud Container Registry
+        run: |
+          docker login -u ${{ secrets.ALIYUN_USERNAME }} -p '${{ secrets.ALIYUN_PASSWD }}' registry.cn-hangzhou.aliyuncs.com
       - name: Build and push
         uses: docker/build-push-action@v2
         env:
@@ -481,5 +479,4 @@ jobs:
             linux/arm/v7
             linux/arm64/v8
           tags: |
-            liwei2633/gopeed:latest
-            liwei2633/gopeed:v${{ env.VERSION }}
+            registry.cn-hangzhou.aliyuncs.com/${{ secrets.ALIYUN_NAMESPACES }}/gopeed:latest
